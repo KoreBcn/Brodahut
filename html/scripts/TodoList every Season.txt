@@ -1,0 +1,6 @@
+Change season names to every script
+
+Update SPs Season plus 1 and run the following command
+#Password br0d4hut
+mysql -u dbadmin -p BRODAHUT < /var/www/html/scripts/sqlRoutines/calculateEuroGoals.sql
+mysql -u dbadmin -p BRODAHUT < /var/www/html/scripts/sqlRoutines/updateEuroTable.sql

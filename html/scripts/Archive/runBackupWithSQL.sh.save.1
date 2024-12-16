@@ -1,0 +1,71 @@
+#!/bin/sh
+#We download al the content of production and zip it in a backup folder with the date
+
+FTPHOST=files.000webhost.com/
+FTPFOLDER=/public_html/
+#Encript Credentials
+
+FTPUSR="testtesttestbroda"
+FTPPWD="br0d4huthost"
+
+DBUSR="dbadmin"
+DBPWD="br0d4hut"
+DBNAME="BRODAHUT"
+
+BACKUPDIR="/var/www/backups/"
+DATE=$(date +%d%m%Y)
+LOGFILE=$DATE".log"
+
+
+touch $BACKUPDIR$LOGFILE
+echo $DATE - $(date +%H:%M:%S) " - Logfile created" >> $BACKUPDIR/$LOGFILE 2>&1
+
+#Create directory with new backup
+echo $DATE - $(date +%H:%M:%S) " - Creating directory" >> $BACKUPDIR/$LOGFILE 2>&1
+mkdir $BACKUPDIR/$DATE >> $BACKUPDIR/$LOGFILE 2>&1
+#Go to directory
+cd $BACKUPDIR$DATE >> $BACKUPDIR/$LOGFILE 2>&1
+
+#CREATES BACKUP IN THE CURRENT FOLDER
+echo $DATE - $(date +%H:%M:%S) " - Creating backup" >> $BACKUPDIR/$LOGFILE 2>&1
+wget -r -np -nH --cut-dirs 2 ftp://$FTPUSR:$FTPPWD@$FTPHOST$FTPFOLDER/mysqlbackup/backup.sql >> $BACKUPDIR/$LOGFILE 2>&1
+
+#We output the differences between the latest database backup file and the previous one.
+echo $DATE - $(date +%H:%M:%S) " - Generating insert file for updates" >> $BACKUPDIR/$LOGFILE 2>&1
+diff /var/www/html/mysqlbackup/backup.sql /var/www/backups/$DATE/mysqlbackup/backup.sql | grep "INSERT INTO.*\\;$" | grep -v "INSERT INTO MANAGER_SEASON_V*" | grep -v "INSERT INTO MANAGER_MONTH_V*" grep -v "INSERT INTO KNOWCKOUT_TABLE*" | cut -c 3- > /var/www/backups/$DATE/mysqlbackup/$DATE.sql
+qlbackup/$DATE.sql
+
+#We only run the script if there are any new records
+if [ -s /var/www/backups/$DATE/mysqlbackup/$DATE.sql ]
+then
+	echo $DATE - $(date +%H:%M:%S) " - Truncating tables" >> $BACKUPDIR/$LOGFILE 2>&1
+	mysql -h "localhost" -u $DBUSR "-p"$DBPWD $DBNAME < /var/www/html/scripts/truncateTables.sql >> $BACKUPDIR/$LOGFILE 2>&1
+	
+	echo $DATE - $(date +%H:%M:%S) " - Running Insert script" >> $BACKUPDIR/$LOGFILE 2>&1	
+	mysql -h "localhost" -u $DBUSR "-p"$DBPWD $DBNAME < /var/www/backups/$DATE/mysqlbackup/$DATE.sql >> $BACKUPDIR/$LOGFILE 2>&1
+	
+	if [ "$ret" = "0" ]; then
+
+    		echo $DATE - $(date +%H:%M:%S) " - MySQL executed ok" >> $BACKUPDIR/$LOGFILE 2>&1
+       		echo $DATE - $(date +%H:%M:%S) " - Moving MySQL backup script to test environment" >> $BACKUPDIR/$LOGFILE 2>&1
+       		cp  $BACKUPDIR/$DATE/mysqlbackup/backup.sql /var/www/html/mysqlbackup/backup.sql
+       		#changes of last backup
+ 	        cp /var/www/backups/$DATE/mysqlbackup/$DATE.sql /var/www/html/mysqlbackup/$DATE.sql
+	else
+    		echo $DATE - $(date +%H:%M:%S) " - MySQL executed failed" >> $BACKUPDIR/$LOGFILE 2>&1
+	fi
+
+	echo $DATE - $(date +%H:%M:%S) " - Moving MySQL backup script to test environment" >> $BACKUPDIR/$LOGFILE 2>&1
+	cp  $BACKUPDIR/$DATE/mysqlbackup/backup.sql /var/www/html/mysqlbackup/backup.sql
+	#changes of last backup
+	cp /var/www/backups/$DATE/mysqlbackup/$DATE.sql /var/www/html/mysqlbackup/$DATE.sql
+else
+	echo $DATE - $(date +%H:%M:%S) " - The file is empty" >> $BACKUPDIR/$LOGFILE 2>&1
+fi
+
+echo $DATE - $(date +%H:%M:%S) " - Zipping backup" >> $BACKUPDIR/$LOGFILE 2>&1
+cd $BACKUPDIR
+tar -zcvf $DATE.gz $BACKUPDIR$DATE >> $BACKUPDIR/$LOGFILE 2>&1
+
+echo $DATE - $(date +%H:%M:%S) " - Deleting folder" >> $BACKUPDIR/$LOGFILE 2>&1
+#rm -r $DATE/

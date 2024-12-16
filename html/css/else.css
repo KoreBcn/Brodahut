@@ -1,0 +1,276 @@
+
+.colweb-1 {width: 8%;}
+.colweb-2 {width: 16%;}
+.colweb-3 {width: 24%;}
+.colweb-4 {width: 32%;}
+.colweb-5 {width: 40%;}
+.colweb-6 {width: 49%;}
+.colweb-7 {width: 58%;}
+.colweb-8 {width: 66%;}
+.colweb-9 {width: 74%;}
+.colweb-10 {width: 82%;}
+.colweb-11 {width: 90%;}
+.colweb-12 {width: 98%;}
+.colweb-13 {width: 100%;}
+
+
+
+[class*="colweb-"] {
+    float: left;
+	/*border: 1px solid red;*/
+}
+
+.row::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.row{
+}
+
+	
+.knockplayer {
+            padding: 12px 15px;
+            margin: 8px 0;
+            margin-left: 30px;
+            font-size: 14px;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+    }
+.score {
+            margin: 8px 0;
+            padding: 12px 0px;
+            text-align: center;
+            display: inline-block;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+    }    
+
+
+body{
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
+	color: black;
+	background-position: center;
+	background-attachment: fixed;
+	background-size: cover;
+}
+
+#graph{
+	height: 85%;
+	margin-bottom:1%;
+}
+
+#manager-month{
+	margin-bottom:2%;
+	margin-left:auto;
+	margin-right:auto;
+	height:32%;
+}
+#gameweek-stats{
+	height:47%;
+}	
+
+#pay-hist{
+	margin-bottom:2%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#preTemp{
+	margin-top:2%;
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#sponsorsTable{
+	margin-bottom:2%;
+	height:85%,
+}
+
+#tvrightsTable{
+	margin-bottom:2%;
+	height:44%,
+}
+	
+#games-table{
+	width:75%;
+	float:right;
+	margin-right:2%;
+}
+
+#champions-table{
+	width:85%;
+	float:left;
+	margin-left:2%;
+}
+
+#changeGWChampions{
+	float: right; 
+	margin-right:2%;
+}
+
+#changeKnockOut{
+	margin-left:1%;
+	margin-top:2%;
+}
+
+.statscombo{
+	float: left;
+	font-size: 17px;
+	margin-bottom:0.5%;
+}
+.sbmtbutton {
+    background-color: #eb2d53;
+    color: white;
+    padding: 10px 15px;
+    margin: 4px 0;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.show {
+    display: block;
+}
+
+.demo {
+  width: 80%;
+  height: 90%;
+  margin-top: 1%;
+}
+.champions-knockout {
+  width: 100%;
+  height: 50%;
+  margin-top: 1%;
+}
+
+
+.myButton{
+	display:inline-block;
+	padding:8px 16px;
+	vertical-align:middle;
+	overflow:hidden;
+	text-decoration:none;
+	color:inherit;
+	background-color:inherit;
+	text-align:center;
+	cursor:pointer;
+	white-space:nowrap;
+	border-radius:8px;
+	color:#000!important;
+	background-color:#fff!important;
+	border:1px solid #ccc!important;
+	border-color:#f44336!important
+}
+
+.myButton:hover {
+
+	background-color:#eb2d53;
+}
+
+.myButton:hover{
+	border-color:#f44336!important;
+	box-shadow: 5px 10px 8px 10px #888888
+}
+
+.excelpic{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+	width:100%;
+}
+
+
+.championsform{
+    color:ghostwhite;
+	float:left;
+	text-align:left;
+	margin-left:10%;
+	width:30%;
+}
+#cookieelement {
+  position: fixed;
+  display: none;
+  top: 0;
+  left: 0;
+  right:0;
+  bottom: 0;
+  background-color: rgba(244,244,244,0.8);
+  z-index: 2;
+  cursor: pointer;
+  position: fixed;
+  display: none;
+  width: 100%;
+  height: 100%;
+  z-index: 2;	  
+}
+
+#cookieelementsub {
+  font-size: 11px;
+  color: black;
+  padding: 50px;
+  text-align: left;
+}
+
+#privacybutton {
+	position: absolute;
+	left:    40%;
+	bottom:   1%;
+	font-size: 18px;
+	color:black;
+	text-align: center;
+	 background-color: rgba(244,244,244,0.8);
+} 
+
+
+@media only screen and (max-width: 768px) {
+    /* For mobile phones: */
+	
+	[class*="colweb-"] {
+		width: 100%;
+	}
+
+	.myButton{
+		 visibility: hidden;
+	}
+
+	/*#adtab{
+		 visibility: hidden;*/
+
+	 .statscombo{
+			width:100%;	
+	 }
+	 
+	 #games-table, #champions-table, #changeGWChampions, #changeKnockOut{
+		width:100%;
+		margin-right:auto;
+		margin-left:auto;
+		float: none;
+		margin-top:1%;
+		}
+		
+	#graph, #manager-month, #gameweek-stats, #stadiumTable{
+		
+		margin-bottom:50px;
+	}
+	
+	#manager-month, #gameweek-stats, #sponsorsTable{
+			height:400px;
+	}
+	
+	#sponsorsTable{
+		height:700px;
+	}
+
+	#tvrightsTable{
+		height:400px;
+	}
+
+
+	
+}
