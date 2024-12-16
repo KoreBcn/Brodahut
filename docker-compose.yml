@@ -1,31 +1,39 @@
-version: '3.9'
+version: '3.8'
+
 services:
   web:
-    image: php:8.2-apache
-    container_name: php_web_server
+    build:
+      context: .  # Build the PHP-Apache image from the Dockerfile in the current directory
+      dockerfile: Dockerfile
     ports:
-      - "8080:80"
-    volumes:
-      - ./html:/var/www/html
-      - ./php.ini:/usr/local/etc/php/php.ini
-    environment:
-      - APACHE_RUN_USER=www-data
-      - APACHE_RUN_GROUP=www-data
+      - "80:80"  # Map host port 80 to container port 80
     depends_on:
-      - db
+      - db       # Ensure the database starts before the web server
+    volumes:
+      - ./html:/var/www/html  # Sync the local html folder with the container's web root
+    networks:
+      - brodahut-network
 
   db:
     image: mysql:8.0
-    container_name: mysql_server
-    ports:
-      - "3306:3306"
+    container_name: mysql-container
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: rootpassword
-      MYSQL_DATABASE: mydatabase
-      MYSQL_USER: myuser
-      MYSQL_PASSWORD: mypassword
+      MYSQL_ROOT_PASSWORD: br0d4hut  # Root password for MySQL
+      MYSQL_DATABASE: BRODAHUT          # Default database name
+      MYSQL_USER: dbadmin         # MySQL user
+      MYSQL_PASSWORD: br0d4hut # Password for MySQL user
+    ports:
+      - "3306:3306"  # Map host port 3306 to container port 3306
     volumes:
-      - db_data:/var/lib/mysql
+      - db_data:/var/lib/mysql                  # Persistent data storage for MySQL
+      - ./db:/docker-entrypoint-initdb.d  # Run init.sql at startup
+    networks:
+      - brodahut-network
+
+networks:
+  brodahut-network:
+    driver: bridge
 
 volumes:
-  db_data: {}
+  db_data:
