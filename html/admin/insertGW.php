@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/properties.php';
+error_reporting(E_ALL & ~E_NOTICE & ~E_WARNING);
 
 $data = $_GET["data"];
 $log = date("d/m/Y") . " - " . date("h:i:sa") . " - Attempting insertion of data=" . $data . PHP_EOL;
@@ -46,21 +47,6 @@ $conn->close();
 
 echo $return;
 
-//We start a new connection to call the procedure
-  $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
-
-if ($conn->multi_query("CALL UPDATE_CUM()") === TRUE) {
-		$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Acumulated values updated successfully" . PHP_EOL;
-	echo "procedure successful";
-}	
-
 file_put_contents('./updatelogs.txt', $log, FILE_APPEND);
-
-$conn->close();
 
 ?>

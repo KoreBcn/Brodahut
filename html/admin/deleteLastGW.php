@@ -32,20 +32,6 @@ $conn->close();
 
 echo $return;
 
-//We start a new connection to call the procedure
-  $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
-if ($conn->multi_query("CALL UPDATE_CUM()") === TRUE) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Updating acumulated values after deleting gameweek " . $prevgw . PHP_EOL;
-	//echo "procedure successful";
-}	
-
 file_put_contents('./updatelogs.txt', $log, FILE_APPEND);
-
-$conn->close();
 
 ?>

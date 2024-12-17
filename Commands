@@ -1,0 +1,7 @@
+docker exec -it mysql-container 
+ls /docker-entrypoint-initdb.d
+docker exec -it mysql-container mysql -u root -p BRODAHUT
+
+
+#Removes Containers / Volumes / Images
+docker-compose down --rmi all -v
