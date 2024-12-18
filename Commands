@@ -1,7 +1,11 @@
-docker exec -it mysql-container 
+docker exec -it mysql-container bash
 ls /docker-entrypoint-initdb.d
 docker exec -it mysql-container mysql -u root -p BRODAHUT
 
 
 #Removes Containers / Volumes / Images
 docker-compose down --rmi all -v
+
+docker exec -i mysql-container mysql -u dbadmin -pbr0d4hut BRODAHUT < /docker-entrypoint-initdb.d/02.calculateEuroGoals.sql
+
+mysql -u dbadmin -pbr0d4hut BRODAHUT < /docker-entrypoint-initdb.d/02.calculateEuroGoals.sql

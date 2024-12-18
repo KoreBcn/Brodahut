@@ -1,11 +1,13 @@
 <?php
-// Database configuration
 include 'properties.php';
 
-// Get connection object and set the charset
-$conn = mysqli_connect($servername, $username, $password, $dbname);
-$conn->set_charset("utf8");
+// Create connection
+  $conn = new mysqli($servername, $username, $password, $dbname);
 
+  // Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+} 
 
 // Get All Table Names From the Database
 $tables = array();
@@ -58,37 +60,35 @@ foreach ($tables as $table) {
 
 if(!empty($sqlScript))
 {
+
+    $backupDir = '/var/www/html/db';
+    $backupFile = $backupDir . '/backup.sql';
+    
+    // Ensure the directory exists
+    if (!is_dir($backupDir)) {
+        // Create the directory with proper permissions if it doesn't exist
+        if (!mkdir($backupDir, 0755, true)) {
+            die("Error: Failed to create directory '$backupDir'");
+        }
+    }
+    
+    // Ensure the file exists or create it
+    if (!file_exists($backupFile)) {
+        // Open the file for writing, creating it if it doesn't exist
+        $fileHandler = fopen($backupFile, 'w+');
+        if ($fileHandler === false) {
+            die("Error: Failed to create or open file '$backupFile'");
+        }
+        fclose($fileHandler); // Close the file after creating it
+    }
+    
+    #echo "File '$backupFile' is ready for use.";
+
     // Save the SQL script to a backup file
-    $backup_file_name = 'mysqlbackup/backup.sql';
+    $backup_file_name = '/var/www/html/db/backup.sql';
     $fileHandler = fopen($backup_file_name, 'w+');
     $number_of_lines = fwrite($fileHandler, $sqlScript);
     fclose($fileHandler); 
 
-    // Download the SQL backup file to the browser
-    //header('Content-Description: File Transfer');
-    //header('Content-Type: application/octet-stream');
-    //header('Content-Disposition: attachment; filename=' . basename($backup_file_name));
-    //header('Content-Transfer-Encoding: binary');
-    //header('Expires: 0');
-    //header('Cache-Control: must-revalidate');
-    //header('Pragma: public');
-    //header('Content-Length: ' . filesize($backup_file_name));
-    //ob_clean();
-    //flush();
-    //readfile($backup_file_name);
-    //exec('rm ' . $backup_file_name); 
 }
-
-$to      = 'carlosmiquel88@gmail.com';
-$subject = 'TESTING';
-$message = 'hello';
-$headers = array(
-    'From' => 'info@000webhost.com',
-    'Reply-To' => 'info@000webhost.com',
-    'X-Mailer' => 'PHP/' . phpversion()
-);
-
-mail($to, $subject, $message, $headers);
-
-
 ?>

@@ -9,7 +9,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "SELECT GAMEWEEK, DESCRIPTION, EURO_GK FROM `SEASON_CALENDAR` WHERE SEASON = 8";
+$sql = "SELECT GAMEWEEK, DESCRIPTION, EURO_GK FROM `SEASON_CALENDAR` WHERE SEASON = $defaultSeason";
 $result = $conn->query($sql);
 
 $arr = "";

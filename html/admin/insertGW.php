@@ -47,6 +47,9 @@ $conn->close();
 
 echo $return;
 
-file_put_contents('./updatelogs.txt', $log, FILE_APPEND);
+file_put_contents($logfile, $log, FILE_APPEND);
+
+#makesure we have a backup for each line inserted
+include_once '/var/www/html/backupMysql.php'; 
 
 ?>

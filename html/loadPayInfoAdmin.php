@@ -11,7 +11,7 @@ if ($conn->connect_error) {
 
 //$sql = "SELECT if((select max(GAMEWEEK)+1 from GAMEWEEK_INFO where season = 3) is null,1,(select max(GAMEWEEK)+1 from GAMEWEEK_INFO where season = 3)) as GAMEWEEK, PLAYER_NAME, PLAYER_ID, REPUTATION, DATE_FORMAT(NOW(), '%M'), date_format(now(),'%d-%m-%Y') AS INSERT_DATE FROM PLAYERS_INFO LIMIT 8" ;
 
-$sql = "SELECT if((select max(GAMEWEEK)+1 from GAMEWEEK_INFO where season = 8) is null,1,(select max(GAMEWEEK)+1 from GAMEWEEK_INFO where season = 8)) as GAMEWEEK, PLAYER_NAME, SI.PLAYER_ID, PLAYERS_INFO.REPUTATION, DATE_FORMAT(NOW(), '%M'), date_format(now(),'%d-%m-%Y') AS INSERT_DATE, SI.REPUTATION AS STADIUM_REP, SI.SEATS FROM PLAYERS_INFO  JOIN STADIUM_INFO SI ON SI.PLAYER_ID = PLAYERS_INFO.PLAYER_ID limit 8";
+$sql = "SELECT if((select max(GAMEWEEK)+1 from GAMEWEEK_INFO where season = $defaultSeason) is null,1,(select max(GAMEWEEK)+1 from GAMEWEEK_INFO where season = $defaultSeason)) as GAMEWEEK, PLAYER_NAME, SI.PLAYER_ID, PLAYERS_INFO.REPUTATION, DATE_FORMAT(NOW(), '%M'), date_format(now(),'%d-%m-%Y') AS INSERT_DATE, SI.REPUTATION AS STADIUM_REP, SI.SEATS FROM PLAYERS_INFO  JOIN STADIUM_INFO SI ON SI.PLAYER_ID = PLAYERS_INFO.PLAYER_ID limit 8";
 $result = $conn->query($sql);
 
 $arr = "";

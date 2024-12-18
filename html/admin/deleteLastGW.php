@@ -1,8 +1,9 @@
 <?php
+
 include $_SERVER['DOCUMENT_ROOT'] . '/properties.php';
 // Create connection
 
-$prevgw = $_GET['prevgameweek'];
+
 
 $conn = new mysqli($servername, $username, $password, $dbname);
   $log = "";
@@ -12,7 +13,8 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "delete from GAMEWEEK_INFO where season = 8 and gameweek  = " . $prevgw;
+$prevgw = $_GET['prevgameweek'];
+$sql = "delete from GAMEWEEK_INFO where season = $defaultSeason and gameweek  = " . $prevgw;
 
 
 //echo $sql;
@@ -32,6 +34,6 @@ $conn->close();
 
 echo $return;
 
-file_put_contents('./updatelogs.txt', $log, FILE_APPEND);
+file_put_contents($logfile, $log, FILE_APPEND);
 
 ?>

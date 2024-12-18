@@ -58,7 +58,7 @@ if ($conn->multi_query("CALL UPDATE_STADIUM_REP()") === TRUE) {
 	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Updated stadium reputation" . PHP_EOL;
 }	
 
-file_put_contents('./updatelogs.txt', $log, FILE_APPEND);
+file_put_contents($logfile, $log, FILE_APPEND);
 
 $conn->close();
 

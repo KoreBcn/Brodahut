@@ -2,47 +2,8 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/properties.php';
 // Create connection
 
-//$data = $_GET["data"];
-
-// Convert JSON string to Object
-//$someObject = json_decode($data);
 $log = "";
   
-//$conn = new mysqli($servername, $username, $password, $dbname);
-//// Check connection
-//if ($conn->connect_error) {
-//	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-//    die("Connection failed: " . $conn->connect_error);
-//} 
-//
-//$season = $_GET["season"];
-//
-//  $sql = "";
-//  // Loop through Object
-//foreach($someObject as $key => $value) {
-//	//echo $value->name . ", " . $value->id ;
-//	$quer = "UPDATE EUROLEAGUE_GAMES SET GOALS_HOME ='" . $value->scoreh . "', GOALS_AWAY = '" . $value->scorea . "', POINTS_HOME = '" . $value->pointsh . "', POINTS_AWAY = '" . $value->pointsa. "' WHERE PLAYER_HOME = '" . $value->homeid . "' AND PLAYER_AWAY = '" . $value->awayid . "' AND SEASON = " . $season . " ;"  ;
-//	//$quer .= ",'" . $value->gameweek . "','"  . $value->playerId . "','"  . $value->player ;
-//	$sql .= $quer;
-//	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Updating Euro Game Info for match between player Id  " . $value->homeid . " vs player Id " . $value->awayid . PHP_EOL;
-//}
-//$log .= $sql;
-
-
-//$return = "";
-
-//if ($conn->multi_query($sql) === TRUE) {
-//	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Euro Game Info updated successfully" . PHP_EOL;
-//	$return = "[{}]";
-//} else {
-//	$return = "[{'id':1}]";
-//	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Error when updating" . PHP_EOL;
-//    //echo "Error: " . $sql . "<br>" . $conn->error;
-//}
-
-//$conn->close();
-
-//echo $return;
 
 //We start a new connection to call the procedure
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -52,10 +13,30 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-if ($conn->multi_query("CALL CALCULATE_GOALS()") === TRUE) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Results calculated  successfully" . PHP_EOL;
+// Assuming you already have the database connection in $conn
+$procedureCall = "CALL CALCULATE_GOALS()";
+
+// Use multi_query to handle stored procedure execution
+if ($conn->multi_query($procedureCall)) {
+    // If the procedure executes, check for results
+    do {
+        // If a result set is returned (i.e., SELECT), we can process it here
+        if ($result = $conn->store_result()) {
+            // Process the result set (if needed)
+            $result->free();
+        }
+        
+        // If no result set, continue to the next query (if any)
+    } while ($conn->next_result()); // Move to the next result set
+    
+    // Log successful execution
+    $log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Calculate Goals procedure successfully executed." . PHP_EOL;
+} else {
+    // If there's an error executing the procedure, log the error
+    echo "Error executing stored procedure: " . $conn->error;
 }
 
+// Close connection if needed
 $conn->close();
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -65,13 +46,19 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-if ($conn->multi_query("CALL UPDATE_EUROTABLE()") === TRUE) {
+$procedureCall = "CALL UPDATE_EUROTABLE()";
+
+// Execute the query using mysqli_query (not multi_query)
+if ($conn->query($procedureCall) === TRUE) {
 	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Table Euro league Info updated successfully" . PHP_EOL;
+} else {
+    echo "Error executing stored procedure: " . $conn->error;
 }
 
 $conn->close();
 
 echo $return = "[{}]";
-file_put_contents('./updatelogs.txt', $log, FILE_APPEND);
+
+file_put_contents($logfile, $log, FILE_APPEND);
 
 ?>
