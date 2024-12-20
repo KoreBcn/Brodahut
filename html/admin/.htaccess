@@ -1,4 +1,0 @@
-AuthUserFile /var/www/html/admin/.htpasswd
-AuthName "Secure Document"
-AuthType Basic
-require user carloskore
