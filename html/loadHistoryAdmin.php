@@ -1,14 +1,6 @@
 <?php
 include 'properties.php';
 
-// Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-  // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
 //$sql2 = "SELECT GAMEWEEK, DATE_FORMAT(INSERT_DTM, '%Y-%m-%d') as INSERT_DTM, MONTH,  PLAYER_NAME, TEAM_VALUE, TEAM_SALARY, BALANCE, PROPERTY, GAMEWEEK_POSITION, GAMEWEEK_POINTS, POSITION_PRIZE, BEST_LINEUP, TV_RIGHTS, SPONSOR, AUDIENCE, EXTRA_PAYMENT, EXTRA_PAYMENT_VAL, CAPTAIN, CAPTAIN_POINTS, CAPTAIN_RATING, CAPTAIN_PRIZE, FUTMONDO_PRIZE, PAYMENT, TOTAL FROM GAMEWEEK_INFO  WHERE SEASON = 1 order by 1 desc";
 $sql = "SELECT     gameweek,    date_format(gw.insert_dtm,'%Y-%m-%d') AS insert_dtm, month,    pi.player_id,     pi.player_name,     pi.reputation,     team_value,     team_salary,     balance,     property,     gameweek_position,     gameweek_points,     position_prize,     best_lineup,     gw.tv_rights,     gw.matchtype,     audience,     extra_payment,     extra_payment_val,     captain,     captain_points,     captain_rating,     captain_prize,     futmondo_prize,     payment,     total, si.reputation, si.seats FROM     GAMEWEEK_INFO gw JOIN PLAYERS_INFO pi on pi.player_id = gw.player_id join STADIUM_INFO si on si.player_id = pi.player_id WHERE     gw.season = $defaultSeason ORDER BY     1 DESC";
 $result = $conn->query($sql);

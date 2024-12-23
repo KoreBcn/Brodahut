@@ -1,14 +1,6 @@
 <?php
 include 'properties.php';
 
-// Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
-
-  // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-} 
-
 $sql = "SELECT PLAYER_NAME,PLAYER_DESC,PLAYERS_INFO.REPUTATION,si.REPUTATION,SPONSORS.SRC_LOGO,TV_RIGHTS.SRC_LOGO,LEAGUE,CHAMPIONS,UEFA,CUP,EUROPCUP,WORLDCUP FROM PLAYERS_INFO JOIN SPONSORS ON PLAYERS_INFO.SPONSOR = SPONSORS.ID join TV_RIGHTS on TV_RIGHTS.ID = PLAYERS_INFO.TV_RIGHTS join STADIUM_INFO si on si.PLAYER_ID = PLAYERS_INFO.PLAYER_ID order by si.player_id";
 $result = $conn->query($sql);
 

@@ -11,6 +11,8 @@ services:
       - db       # Ensure the database starts before the web server
     volumes:
       - ./html:/var/www/html  # Sync the local html folder with the container's web root
+    env_file:
+      - ./html/.env
     networks:
       - brodahut-network
 
