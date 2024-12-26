@@ -7,20 +7,13 @@ $log = date("d/m/Y") . " - " . date("h:i:sa") . " - Attempting update of data=" 
 // Convert JSON string to Object
 $someObject = json_decode($data);
 	
-// Create connection
-  $conn = new mysqli($servername, $username, $password, $dbname);
+$sql = "";
 
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
-  $sql = "";
   // Loop through Object
 foreach($someObject as $key => $value) {
 
 	$quer = "UPDATE GAMEWEEK_INFO set TEAM_VALUE = " . $value->teamval . ", MONTH = '" . $value->month . "', TEAM_SALARY = " . $value->penal . ", BALANCE = " . $value->balance . ", PROPERTY = " . $value->property  . ", GAMEWEEK_POSITION = " . $value->pos . ", GAMEWEEK_POINTS = " .  $value->points . ", POSITION_PRIZE = " .  $value->prizepos . ", BEST_LINEUP = " . $value->onzeideal . ", TV_RIGHTS = " . $value->dretstv . ", MATCHTYPE = '" . $value->matchtype . "', AUDIENCE = "  . $value->stadiuminc . ", EXTRA_PAYMENT = '" . $value->extra . "', EXTRA_PAYMENT_VAL = " . $value->extraval . ", CAPTAIN = '" . $value->captain . "', CAPTAIN_POINTS = " . $value->cappoints . ", CAPTAIN_RATING = '" . $value->caprating . "', CAPTAIN_PRIZE = " . $value->prizecap . ", FUTMONDO_PRIZE = " . $value->totalfut . ", PAYMENT = " . $value->payment . ", TOTAL = " .  $value->totalfut . "+" . $value->payment . ", UPDATE_DTM = NOW() " ;
-	$quer .= "WHERE 0=0 AND SEASON = 8 AND PLAYER_ID = " . $value->playerId . " AND GAMEWEEK = " . $value->gameweek . " ;";
+	$quer .= "WHERE 0=0 AND SEASON = " . $defaultSeason . " AND PLAYER_ID = " . $value->playerId . " AND GAMEWEEK = " . $value->gameweek . " ;";
 	$sql .= $quer;
 	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Updating gameweek info for player: " . $value->name . " for gameweek " . $value->gameweek . PHP_EOL;
 }
@@ -42,7 +35,5 @@ $conn->close();
 echo $return;
 
 file_put_contents($logfile, $log, FILE_APPEND);
-
-$conn->close();
 
 ?>

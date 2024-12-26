@@ -7,14 +7,6 @@ $log = date("d/m/Y") . " - " . date("h:i:sa") . " - Attempting insertion of data
 
 // Convert JSON string to Object
 $someObject = json_decode($data);
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
 
   $sql = "INSERT INTO GAMEWEEK_INFO (ID, SEASON, MONTH, GAMEWEEK, PLAYER_ID, PLAYER_NAME, TEAM_VALUE, TEAM_SALARY, BALANCE, PROPERTY, GAMEWEEK_POSITION, GAMEWEEK_POINTS, POSITION_PRIZE, BEST_LINEUP, TV_RIGHTS, MATCHTYPE, AUDIENCE, EXTRA_PAYMENT, EXTRA_PAYMENT_VAL, CAPTAIN, CAPTAIN_POINTS, CAPTAIN_RATING, CAPTAIN_PRIZE, FUTMONDO_PRIZE, PAYMENT, TOTAL, UPDATE_DTM, INSERT_DTM)  VALUES ";
  // Loop through Object

@@ -3,17 +3,8 @@
 include $_SERVER['DOCUMENT_ROOT'] . '/properties.php';
 // Create connection
 
-
-
-$conn = new mysqli($servername, $username, $password, $dbname);
-  $log = "";
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
-
 $prevgw = $_GET['prevgameweek'];
+$log = "";
 $sql = "delete from GAMEWEEK_INFO where season = $defaultSeason and gameweek  = " . $prevgw;
 
 

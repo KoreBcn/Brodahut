@@ -4,15 +4,6 @@ include $_SERVER['DOCUMENT_ROOT'] . '/properties.php';
 
 $log = "";
   
-
-//We start a new connection to call the procedure
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
-
 // Assuming you already have the database connection in $conn
 $procedureCall = "CALL CALCULATE_GOALS()";
 

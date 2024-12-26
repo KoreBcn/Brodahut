@@ -3,19 +3,9 @@ include $_SERVER['DOCUMENT_ROOT'] . '/properties.php';
 // Create connection
 
 $data = $_GET["data"];
-
-// Convert JSON string to Object
-$someObject = json_decode($data);
 $log = "";
+$sql = "";
 
-$conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
-
- $sql = "";
   // Loop through Object
 foreach($someObject as $key => $value) {
     $id = $value->id;

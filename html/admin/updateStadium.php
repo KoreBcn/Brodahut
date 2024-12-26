@@ -7,15 +7,9 @@ $data = $_GET["data"];
 // Convert JSON string to Object
 $someObject = json_decode($data);
 
-  $conn = new mysqli($servername, $username, $password, $dbname);
-  $log = "";
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
+$log = "";
+$sql = "";
 
-  $sql = "";
   // Loop through Object
 foreach($someObject as $key => $value) {
 	//echo $value->name . ", " . $value->id ;
@@ -44,19 +38,6 @@ if ($conn->multi_query($sql) === TRUE) {
 $conn->close();
 
 echo $return;
-
-//We start a new connection to call the procedure
-  $conn = new mysqli($servername, $username, $password, $dbname);
-// Check connection
-if ($conn->connect_error) {
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Connection failed: " .PHP_EOL;
-    die("Connection failed: " . $conn->connect_error);
-} 
-
-if ($conn->multi_query("CALL UPDATE_STADIUM_REP()") === TRUE) {
-	//echo "procedure successful";
-	$log .= date("d/m/Y") . " - " . date("h:i:sa") . " - Updated stadium reputation" . PHP_EOL;
-}	
 
 file_put_contents($logfile, $log, FILE_APPEND);
 
