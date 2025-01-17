@@ -9,3 +9,9 @@ docker-compose down --rmi all -v
 docker exec -i mysql-container mysql -u dbadmin -pbr0d4hut BRODAHUT < /docker-entrypoint-initdb.d/02.calculateEuroGoals.sql
 
 mysql -u dbadmin -pbr0d4hut BRODAHUT < /docker-entrypoint-initdb.d/02.calculateEuroGoals.sql
+
+
+#Do backup that will also be used when building the image for the first time
+docker exec -it mysql-container bash
+#Password br0d4hut
+mysqldump -u root -p BRODAHUT > /docker-entrypoint-initdb.d/01.backup.sql
