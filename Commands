@@ -1,3 +1,4 @@
+
 docker exec -it mysql-container bash
 ls /docker-entrypoint-initdb.d
 docker exec -it mysql-container mysql -u root -p BRODAHUT
