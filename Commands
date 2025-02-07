@@ -1,3 +1,4 @@
+
 docker exec -it mysql-container bash
 ls /docker-entrypoint-initdb.d
 docker exec -it mysql-container mysql -u root -p BRODAHUT
@@ -15,5 +16,3 @@ mysql -u dbadmin -pbr0d4hut BRODAHUT < /docker-entrypoint-initdb.d/02.calculateE
 docker exec -it mysql-container bash
 #Password br0d4hut
 mysqldump -u root -p BRODAHUT > /docker-entrypoint-initdb.d/01.backup.sql
-
-#nothing
