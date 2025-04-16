@@ -1,5 +1,6 @@
 <?php
 include $_SERVER['DOCUMENT_ROOT'] . '/properties.php';
+
 // Create connection
 
 $data = $_GET["data"];
@@ -9,13 +10,12 @@ $someObject = json_decode($data);
 
 $log = "";
 
-
 $sql = "";
   // Loop through Object
 foreach($someObject as $key => $value) {
 	//echo $value->name . ", " . $value->id ;
 	
-	$quer = "UPDATE SEASON_CALENDAR SET DESCRIPTION = '" . $value->description . "', EURO_GK = '" . $value->eurogk . "' , UPDATE_DTM = NOW() WHERE GAMEWEEK = " . $value->gameweek . " AND SEASON = " .$defaultSeason . "";";
+	$quer = "UPDATE SEASON_CALENDAR SET DESCRIPTION = '" . $value->description . "', EURO_GK = '" . $value->eurogk . "' , UPDATE_DTM = NOW() WHERE GAMEWEEK = " . $value->gameweek . " AND SEASON = " .$defaultSeason . ";";
 	
 	$sql .= $quer;
 	
