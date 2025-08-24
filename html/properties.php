@@ -5,7 +5,7 @@ $password = getenv('DB_PASS');
 $dbname = getenv('DB_NAME');
 
 $logfile = "/var/www/html/updatelogs.txt";
-$defaultSeason = "8";
+$defaultSeason = "9";
 
 #Open connection
 $conn = new mysqli($servername, $username, $password, $dbname);

@@ -1,0 +1,46 @@
+0 -- CHANGE $defaultSeason = +1 from properties.php file
+1 -- CHANGE ALL DEFAULT SEASON IN SPs in folder db/02.calculateEuroGoals.sql, db/03.updateCumValues.sql, db/04.updateEuroTable.sql 
+2 -- DUPLICATE CALENDAR table, EUROLEAGUE_GAMES table and EUROLEAGUE_TABLE table for the new season:
+
+INSERT INTO SEASON_CALENDAR (GAMEWEEK, DESCRIPTION, INSERT_DTM, UPDATE_DTM, EURO_GK, SEASON)
+SELECT GAMEWEEK, DESCRIPTION, NOW(), NOW(), EURO_GK, 9
+FROM SEASON_CALENDAR WHERE SEASON = 8;
+
+INSERT INTO EUROLEAGUE_GAMES (
+    GAMEWEEK,
+    GAMEWEEK_LEAGUE,
+    PLAYER_HOME,
+    PLAYER_AWAY,
+    GOALS_HOME,
+    GOALS_AWAY,
+    POINTS_HOME,
+    POINTS_AWAY,
+    INSERT_DTM,
+    UPDATE_DTM,
+    SEASON
+)
+SELECT
+    GAMEWEEK,
+    GAMEWEEK_LEAGUE,
+    PLAYER_HOME,
+    PLAYER_AWAY,
+    0,   -- reset GOALS_HOME
+    0,   -- reset GOALS_AWAY
+    0,   -- reset POINTS_HOME
+    0,   -- reset POINTS_AWAY
+    NOW(),
+    NOW(),
+    9
+FROM EUROLEAGUE_GAMES
+WHERE SEASON = 8;
+
+3 -- Do backup that will also be used when building the image for the first time
+docker exec -it mysql-container bash
+--Password br0d4hut
+mysqldump -u root -p BRODAHUT > /docker-entrypoint-initdb.d/01.backup.sql
+
+4 -- Change Index.html to point to the new season
+5 -- Wipe out the mysql volume to apply all new backup SPs
+docker-compose down -v
+
+6 -- COMMIT all changes to git

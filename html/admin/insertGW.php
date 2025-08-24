@@ -14,7 +14,7 @@ $someObject = json_decode($data);
 foreach($someObject as $key => $value) {
 
 	
-	$quer = "('0','8','" . $value->month . "','"  . $value->gameweek . "','"  . $value->playerId . "','"  . $value->player . "','" . $value->teamval . "','" . $value->penal  . "','" . $value->balance . "','" . $value->property . "','" . $value->pos . "','" . $value->points . "','" . $value->prizepos . "','0','0','" . $value->matchtype . "','" . $value->stadiuminc . "','" . $value->extracon  . "','"  . $value->extraval . "','" . $value->captain . "','" . $value->cappoints  . "','" . $value->caprating . "','"  . $value->prizecap . "'," . $value->totalfut . "," . $value->payment . "," . $value->totalfut . "+" . $value->payment . ", NOW(), NOW())," ;
+	$quer = "('0'," . $defaultSeason . ",'" . $value->month . "','"  . $value->gameweek . "','"  . $value->playerId . "','"  . $value->player . "','" . $value->teamval . "','" . $value->penal  . "','" . $value->balance . "','" . $value->property . "','" . $value->pos . "','" . $value->points . "','" . $value->prizepos . "','0','0','" . $value->matchtype . "','" . $value->stadiuminc . "','" . $value->extracon  . "','"  . $value->extraval . "','" . $value->captain . "','" . $value->cappoints  . "','" . $value->caprating . "','"  . $value->prizecap . "'," . $value->totalfut . "," . $value->payment . "," . $value->totalfut . "+" . $value->payment . ", NOW(), NOW())," ;
 	$sql .= $quer;
 }
 
