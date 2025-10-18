@@ -1,5 +1,14 @@
 0 -- CHANGE $defaultSeason = +1 from properties.php file
-1 -- CHANGE ALL DEFAULT SEASON IN SPs in folder db/02.calculateEuroGoals.sql, db/03.updateCumValues.sql, db/04.updateEuroTable.sql 
+1 -- CHANGE ALL DEFAULT SEASON IN SPs in folder db/02.calculateEuroGoals.sql, db/03.updateCumValues.sql, db/04.updateEuroTable.sql  and run the following commands to override:
+
+-- Overrides
+docker exec -i mysql-container bash -c "mysql -u root -pbr0d4hut BRODAHUT < /docker-entrypoint-initdb.d/02.calculateEuroGoals.sql"
+-- Shows the procedure to verify
+docker exec -i mysql-container mysql -u root -pbr0d4hut -e "SHOW CREATE PROCEDURE CALCULATE_GOALS\G" BRODAHUT;
+
+docker exec -i mysql-container mysql -u root -pbr0d4hut -e "SHOW CREATE PROCEDURE UPDATE_EUROTABLE\G" BRODAHUT
+docker exec -i mysql-container bash -c "mysql -u root -pbr0d4hut BRODAHUT < /docker-entrypoint-initdb.d/04.updateEuroTable.sql"
+
 2 -- DUPLICATE CALENDAR table, EUROLEAGUE_GAMES table and EUROLEAGUE_TABLE table for the new season:
 
 INSERT INTO SEASON_CALENDAR (GAMEWEEK, DESCRIPTION, INSERT_DTM, UPDATE_DTM, EURO_GK, SEASON)
